@@ -19,5 +19,7 @@ public class frag2 extends Fragment {
         view = inflater.inflate(R.layout.frag2 , container, false);
 
         return view;
+
     }
+
 }
