@@ -28,6 +28,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
@@ -41,9 +43,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { // 앱이 실행될때 수행되는 곳
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Write a message to the database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
 
+        myRef.setValue("Hello, World!");
         //임시 로그인 버튼
         Button btn_templogin = (Button)findViewById(R.id.btn_templogin);
         btn_templogin.setOnClickListener(new View.OnClickListener() {
