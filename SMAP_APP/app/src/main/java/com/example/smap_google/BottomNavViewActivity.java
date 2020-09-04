@@ -99,6 +99,7 @@ public class BottomNavViewActivity extends AppCompatActivity implements OnMapRea
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+
     }
 
 }
