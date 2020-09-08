@@ -1,7 +1,13 @@
 package com.example.smap_google;
 
 import android.Manifest;
+<<<<<<< HEAD
 import android.content.pm.PackageManager;
+=======
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+>>>>>>> 4c06829be89d45deb52c8f1b444f284eb9321dc1
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,17 +15,30 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+<<<<<<< HEAD
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+=======
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+>>>>>>> 4c06829be89d45deb52c8f1b444f284eb9321dc1
 
-public class BottomNavViewActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class BottomNavViewActivity extends AppCompatActivity  {
 
     private BottomNavigationView bottomNavigationView;
     private GoogleMap mMap;
@@ -36,8 +55,34 @@ public class BottomNavViewActivity extends AppCompatActivity implements OnMapRea
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainmenu);
 
+<<<<<<< HEAD
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+=======
+
+        btn_mysnap = (Button)findViewById(R.id.my_snapshot);
+        btn_backmain = (Button)findViewById(R.id.my_backmainmenu);
+        btn_album = (Button)findViewById(R.id.my_memoryalbum);
+
+        frag1 = new frag1(); // 0
+        frag2 = new frag2(); // 1
+        frag3 = new frag3(); // 2
+        setFrag(1); //첫 프래그먼트 화면
+
+        btn_mysnap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setFrag(0);
+            }
+        });
+        btn_backmain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setFrag(1);
+            }
+        });
+        btn_album.setOnClickListener(new View.OnClickListener() {
+>>>>>>> 4c06829be89d45deb52c8f1b444f284eb9321dc1
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
@@ -68,7 +113,11 @@ public class BottomNavViewActivity extends AppCompatActivity implements OnMapRea
         setFrag(0); //첫 프래그먼트 화면
     }
 
+<<<<<<< HEAD
     //프래그먼트 화면을 바꾸는 함수
+=======
+
+>>>>>>> 4c06829be89d45deb52c8f1b444f284eb9321dc1
     private void setFrag(int n) {
         fm = getSupportFragmentManager();
         ft = fm.beginTransaction();
@@ -96,6 +145,7 @@ public class BottomNavViewActivity extends AppCompatActivity implements OnMapRea
                 break;
         }
     }
+<<<<<<< HEAD
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
@@ -114,5 +164,7 @@ public class BottomNavViewActivity extends AppCompatActivity implements OnMapRea
         mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
 
     }
+=======
+>>>>>>> 4c06829be89d45deb52c8f1b444f284eb9321dc1
 
 }
