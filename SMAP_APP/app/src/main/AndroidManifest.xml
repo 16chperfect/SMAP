@@ -13,7 +13,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD5RA-Qg_6WewYycEZiUGs0GDD5rO0z6io" />
-        <activity android:name=".ResultActivity_google"></activity>
+
         <activity android:name=".BottomNavViewActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>

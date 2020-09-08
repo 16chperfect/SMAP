@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){ //  로그인 성공
                                 Toast.makeText(MainActivity.this, "로그인 성공",Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(), ResultActivity_google.class);
+                                Intent intent = new Intent(getApplicationContext(), BottomNavViewActivity.class);
                                 intent.putExtra("nickName",account.getDisplayName());
                                 intent.putExtra("photoUrl",String.valueOf(account.getPhotoUrl())); // string.valueof 특정 자룡형을 string 형태로 변환
                                 startActivity(intent);
