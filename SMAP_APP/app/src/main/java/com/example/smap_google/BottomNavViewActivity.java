@@ -1,13 +1,7 @@
 package com.example.smap_google;
 
 import android.Manifest;
-<<<<<<< HEAD
 import android.content.pm.PackageManager;
-=======
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
->>>>>>> 4c06829be89d45deb52c8f1b444f284eb9321dc1
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,13 +24,8 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-<<<<<<< HEAD
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-=======
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
->>>>>>> 4c06829be89d45deb52c8f1b444f284eb9321dc1
+
 
 public class BottomNavViewActivity extends AppCompatActivity  {
 
@@ -55,34 +44,11 @@ public class BottomNavViewActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainmenu);
 
-<<<<<<< HEAD
+
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-=======
 
-        btn_mysnap = (Button)findViewById(R.id.my_snapshot);
-        btn_backmain = (Button)findViewById(R.id.my_backmainmenu);
-        btn_album = (Button)findViewById(R.id.my_memoryalbum);
 
-        frag1 = new frag1(); // 0
-        frag2 = new frag2(); // 1
-        frag3 = new frag3(); // 2
-        setFrag(1); //첫 프래그먼트 화면
-
-        btn_mysnap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setFrag(0);
-            }
-        });
-        btn_backmain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setFrag(1);
-            }
-        });
-        btn_album.setOnClickListener(new View.OnClickListener() {
->>>>>>> 4c06829be89d45deb52c8f1b444f284eb9321dc1
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
@@ -113,11 +79,8 @@ public class BottomNavViewActivity extends AppCompatActivity  {
         setFrag(0); //첫 프래그먼트 화면
     }
 
-<<<<<<< HEAD
     //프래그먼트 화면을 바꾸는 함수
-=======
 
->>>>>>> 4c06829be89d45deb52c8f1b444f284eb9321dc1
     private void setFrag(int n) {
         fm = getSupportFragmentManager();
         ft = fm.beginTransaction();
@@ -145,26 +108,6 @@ public class BottomNavViewActivity extends AppCompatActivity  {
                 break;
         }
     }
-<<<<<<< HEAD
 
-    @Override
-    public void onMapReady(final GoogleMap googleMap) {
-
-        mMap = googleMap;
-
-        LatLng SEOUL = new LatLng(37.56, 126.97);
-
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(SEOUL);
-        markerOptions.title("서울");
-        markerOptions.snippet("한국의 수도");
-        mMap.addMarker(markerOptions);
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
-
-    }
-=======
->>>>>>> 4c06829be89d45deb52c8f1b444f284eb9321dc1
 
 }
