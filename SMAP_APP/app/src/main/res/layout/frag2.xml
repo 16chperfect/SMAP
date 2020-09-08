@@ -6,11 +6,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <fragment
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <com.google.android.gms.maps.MapView
         android:id="@+id/map"
-        tools:context=".MapsActivity"
-        android:name="com.google.android.gms.maps.SupportMapFragment" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>
