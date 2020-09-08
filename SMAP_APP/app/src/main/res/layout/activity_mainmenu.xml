@@ -1,52 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/my_snapshot"
-        android:layout_width="140dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:text="나만의 추억 스냅샷"
-        android:textSize="20dp"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/my_backmainmenu"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/my_backmainmenu"
-        android:layout_width="120dp"
-        android:layout_height="70dp"
-        android:text="SMAP"
-        android:textSize="20dp"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageButton
+        android:id="@+id/btn_searchbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:focusableInTouchMode="true"
+        android:src="@drawable/searchbar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.542"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/my_memoryalbum"
-        android:layout_width="120dp"
-        android:layout_height="70dp"
-        android:text="추억 앨범"
-        android:textSize="20dp"
-        android:textColor="#000000"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemIconTint="#A6EED9"
+        app:itemTextColor="#A6EED9"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/my_backmainmenu" />
+        app:menu="@menu/bottom_menu"
+        tools:layout_editor_absoluteX="8dp" />
 
     <FrameLayout
-        android:id="@+id/main_frame"
-        android:layout_width="409dp"
-        android:layout_height="659dp"
-        app:layout_constraintBottom_toTopOf="@+id/my_backmainmenu"
+        android:id="@+id/bottom_Nav"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 

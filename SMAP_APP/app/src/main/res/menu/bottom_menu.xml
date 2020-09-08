@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/act_mainmenu"
+        android:enabled="true"
+        android:icon="@drawable/icons_home_color"
+        android:title="SMAP"/>
+    <item
+        android:id="@+id/act_search"
+        android:enabled="true"
+        android:icon="@drawable/icons_compass_color"
+        android:title="탐색"/>
+    <item
+        android:id="@+id/act_challenge"
+        android:enabled="true"
+        android:icon="@drawable/icons_action_color"
+        android:title="챌린지"/>
+    <item
+        android:id="@+id/act_album"
+        android:enabled="true"
+        android:icon="@drawable/icons_image_color"
+        android:title="S"/>
+    <item
+        android:id="@+id/act_profile"
+        android:enabled="true"
+        android:icon="@drawable/icons_customer_color"
+        android:title="프로필"/>
+
+
+
+</menu>
