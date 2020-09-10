@@ -60,19 +60,6 @@ public class frag2 extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-
-//        map = googleMap;
-//
-//        LatLng SEOUL = new LatLng(37.56, 126.97);
-//
-//        MarkerOptions markerOptions = new MarkerOptions();
-//        markerOptions.position(SEOUL);
-//        markerOptions.title("서울");
-//        markerOptions.snippet("한국의 수도");
-//        map.addMarker(markerOptions);
-//
-//        map.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
-//        map.animateCamera(CameraUpdateFactory.zoomTo(10));
         map = googleMap;
         getMyLocation();
 
@@ -81,8 +68,8 @@ public class frag2 extends Fragment implements OnMapReadyCallback {
     private  static  final LatLng DEFAULT_LOCATION = new LatLng(37.56641923090,126.9778741551);
     private  static  final  int DEFAULT_ZOOM = 15;
 
-    private static final long INTERVAL_TIME = 5000;
-    private static  final  long FASTEST_INTERVAL_TIME = 2000;
+    private static final long INTERVAL_TIME = 500000000;
+    private static  final  long FASTEST_INTERVAL_TIME = 500000000;
 
     private Location lastknowLocation;
 
