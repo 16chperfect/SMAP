@@ -1,11 +1,13 @@
 package com.example.smap_google;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,12 +40,12 @@ public class BottomNavViewActivity extends AppCompatActivity  {
     private frag3 frag3;
     private frag4 frag4;
     private frag5 frag5;
+    private ImageButton btn_goupload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainmenu);
-
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -77,6 +79,15 @@ public class BottomNavViewActivity extends AppCompatActivity  {
         frag4 = new frag4(); // 3
         frag5 = new frag5(); // 4
         setFrag(0); //첫 프래그먼트 화면
+
+        btn_goupload = (ImageButton)findViewById(R.id.btn_goupload);
+        btn_goupload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BottomNavViewActivity.this, UploadActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     //프래그먼트 화면을 바꾸는 함수

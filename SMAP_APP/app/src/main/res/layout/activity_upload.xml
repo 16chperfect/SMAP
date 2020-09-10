@@ -5,6 +5,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/upload_map"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/radio_emotion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintBottom_toTopOf="@id/radio_sky"
+        app:layout_constraintEnd_toEndOf="parent">
+        <RadioButton android:id="@+id/radio_good"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="좋음"
+            android:onClick="onEmotionButtonClicked"/>
+        <RadioButton android:id="@+id/radio_bad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="나쁨"
+            android:onClick="onEmotionButtonClicked"/>
+    </RadioGroup>
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/radio_sky"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintBottom_toTopOf="@id/edt_title"
+        app:layout_constraintEnd_toStartOf="parent">
+        <RadioButton android:id="@+id/radio_sunny"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="화창함"
+            android:onClick="onSkyButtonClicked"/>
+        <RadioButton android:id="@+id/radio_rain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="비, 번개"
+            android:onClick="onSkyButtonClicked"/>
+    </RadioGroup>
+
     <EditText
         android:id="@+id/edt_hashtag"
         android:layout_width="380dp"
@@ -80,5 +125,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
