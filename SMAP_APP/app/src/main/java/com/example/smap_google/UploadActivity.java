@@ -2,13 +2,16 @@ package com.example.smap_google;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
@@ -18,6 +21,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
+import com.example.smap_google.model.Snapshot;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -32,12 +36,20 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.UUID;
 
 
 public class UploadActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+    private ImageButton uploadButton;
     private EditText edt_title;
-    private EditText edt_content;
+    private EditText edt_contents;
     private EditText edt_hashtag;
     private Button btn_upload;
     private Button btn_back;
@@ -52,6 +64,16 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
         setContentView(R.layout.activity_upload);
         mapView = (MapView) findViewById(R.id.upload_map);
         mapView.getMapAsync(this);
+        uploadButton = (ImageButton) findViewById(R.id.btn_upload);
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uploadsnapshot();
+            }
+        });
+        edt_title =(EditText) findViewById(R.id.edt_title);
+        edt_contents =(EditText) findViewById(R.id.edt_contents);
+        edt_hashtag =(EditText) findViewById(R.id.edt_hashtag);
     }
 
     public void onEmotionButtonClicked(View view) {
@@ -196,5 +218,37 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
 
                 },null);
 
+    }
+    public void uploadsnapshot()
+    {
+        Snapshot snapshot = new Snapshot();
+        snapshot.setId(UUID.randomUUID().toString());
+        snapshot.setTitle(edt_title.getText().toString());
+        snapshot.setContents(edt_contents.getText().toString());
+        snapshot.setHashTag(edt_hashtag.getText().toString());
+        snapshot.setWeather(sky_value);
+        snapshot.setEmotion(emotion_value);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("snapshot");
+        myRef.child(snapshot.getId()).setValue(snapshot);
+
+
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                Intent intent = new Intent(UploadActivity.this, BottomNavViewActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("test", "Failed to read value.", error.toException());
+            }
+        });
     }
 }
