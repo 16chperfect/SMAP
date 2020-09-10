@@ -99,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 startActivityForResult(intent,REQ_SIGN_GOOGLE);
             }
         });
+
+
     }
 
     @Override
@@ -114,7 +116,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 resultLogin(account); // 로그인 결과 ㅏㅄ 출력 수행하라는 메소드
             }
         }
-
     }
 
     private void resultLogin(final GoogleSignInAccount account) {
