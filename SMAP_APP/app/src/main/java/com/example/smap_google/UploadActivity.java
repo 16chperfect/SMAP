@@ -2,6 +2,7 @@ package com.example.smap_google;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
@@ -40,7 +42,7 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
     private EditText edt_content;
     private EditText edt_hashtag;
     private Button btn_upload;
-    private Button btn_back;
+    private ImageButton btn_back;
     private int emotion_value;
     private int sky_value;
     private MapView mapView;
@@ -52,6 +54,16 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
         setContentView(R.layout.activity_upload);
         mapView = (MapView) findViewById(R.id.upload_map);
         mapView.getMapAsync(this);
+
+        //뒤로가기를 누를 시 BottomNavViewActivity로 돌아감
+        btn_back = (ImageButton)findViewById(R.id.btn_back1);
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UploadActivity.this, BottomNavViewActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void onEmotionButtonClicked(View view) {

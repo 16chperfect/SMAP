@@ -1,6 +1,7 @@
 package com.example.smap_google;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
@@ -41,6 +43,7 @@ public class BottomNavViewActivity extends AppCompatActivity  {
     private frag4 frag4;
     private frag5 frag5;
     private ImageButton btn_goupload;
+    private ImageButton btn_album1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +91,16 @@ public class BottomNavViewActivity extends AppCompatActivity  {
                 startActivity(intent);
             }
         });
+
+        //앨범을 누를시 activity_album1로 이동
+        /*btn_album1 = (ImageButton)findViewById(R.id.btn_album1);
+        btn_album1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent (BottomNavViewActivity.this, Album1Activity.class );
+                startActivity(intent);
+            }
+        });*/
     }
 
     //프래그먼트 화면을 바꾸는 함수
