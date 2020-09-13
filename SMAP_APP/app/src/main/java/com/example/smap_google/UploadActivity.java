@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,7 +42,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 
@@ -261,5 +267,32 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
                 Log.w("test", "Failed to read value.", error.toException());
             }
         });
+    }
+    public void clickUploadbutton(com.google.firebase.database.core.view.View v)
+    {
+        StorageReference storage;
+        storage = FirebaseStorage.getInstance().getReference();
+        SimpleDateFormat dateform = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date();
+        final String imagedata = "image/"+date.toString()+".png";
+        StorageReference data = storage.child(imagedata);
+
+        data.putFile(imagefile).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+                BannerData board = new BannerData(imagedata,edittext1.getText().toString());
+                database.child("imagedata").push().setValue(board);
+                edittext1.setText("");
+
+                Toast.makeText(getApplicationContext(),"전송이 완료 되었습니다.",Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(),"전송이 실패하였습니다.",Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }

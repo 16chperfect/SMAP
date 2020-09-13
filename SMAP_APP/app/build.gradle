@@ -39,8 +39,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     implementation 'com.google.firebase:firebase-database:19.3.1'
+    implementation 'com.google.firebase:firebase-storage:16.0.4'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
-    compile 'jp.wasabeef:glide-transformations:1.0.6@aar'
+    implementation 'jp.wasabeef:glide-transformations:1.0.6@aar'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
