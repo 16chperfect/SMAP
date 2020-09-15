@@ -47,7 +47,7 @@ public class MyPageAdapter extends PagerAdapter {
         storage = FirebaseStorage.getInstance().getReference();
         StorageReference banner1 = storage.child(data.get(position).getImagename());
         Glide.with(context.getApplicationContext())
-                .using(new FIrebaseImageLoader())
+                .using(new FirebaseImageLoader())
                 .load(banner1)
                 .into(imageview1);
         container.addView(view);

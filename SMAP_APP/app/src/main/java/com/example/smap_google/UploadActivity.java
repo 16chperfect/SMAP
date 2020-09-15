@@ -73,6 +73,7 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
     private int sky_value;
     private MapView mapView;
     private GoogleMap map;
+    BannerData banner = new BannerData();
     Button button1;
     Button button2;
     ImageView imageView1;
@@ -149,16 +150,16 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
             try{
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagefile);
             } catch (Exception e) {
-                Toast.makeText(getApplicatioContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
             }
         }
     }
-public void clik1button(View v){
+public void clik1button(View v){ //button1
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/8");
         startActivityForResult(intent,101);
 }
-public void clik2button(View v){
+public void clik2button(View v){//button2
     StorageReference storage;
     storage = FirebaseStorage.getInstance().getReference();
     SimpleDateFormat dateform = new SimpleDateFormat("yyyyMMddHHmmss");
