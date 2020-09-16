@@ -101,6 +101,7 @@ public class BottomNavViewActivity extends AppCompatActivity  {
                 startActivity(intent);
             }
         });*/
+
     }
 
     //프래그먼트 화면을 바꾸는 함수

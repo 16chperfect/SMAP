@@ -1,8 +1,11 @@
 package com.example.smap_google;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.awt.font.TextAttribute;
 
 public class HashMainActivity extends AppCompatActivity {
 
@@ -11,7 +14,7 @@ public class HashMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final HashTagAutoCompleteTextView textView = (HashTagAutoCompleteTextView) findViewById(R.id.input_form);
+        final HashTagAutoCompleteTextView textView = (HashTagAutoCompleteTextView) findViewById(R.id.txt_temp1);
 
         HashTagSuggestAdapter adapter = new HashTagSuggestAdapter(this, android.R.layout.simple_dropdown_item_1line, COUNTRIES);
         adapter.setCursorPositionListener(new HashTagSuggestAdapter.CursorPositionListener() {
@@ -27,5 +30,5 @@ public class HashMainActivity extends AppCompatActivity {
     private static final String[] COUNTRIES = new String[]{
             "#빅맥송", "#호수", "#공원", "#회사 스트레스", "#공부 스트레스", "#아침 메뉴" , "#점심 메뉴","#저녁 메뉴","#당일치기","#분위기 좋은곳","#데이트 코스"
     };
+    }
 }
-www
