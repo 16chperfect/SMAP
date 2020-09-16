@@ -149,52 +149,6 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
         }
     }
 
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if(requestCode == 101 && resultCode == RESULT_OK){
-//            imagefile = data.getData();
-//            Log.d("URI 통합 자원 식별자 ", String.valueOf(imagefile));
-//            try{
-//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagefile);
-//            } catch (Exception e) {
-//                Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
-
-    public void clik1button(View v) { //button1
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/8");
-        startActivityForResult(intent, 101);
-    }
-
-    public void clik2button(View v) {//button2
-        StorageReference storage;
-        storage = FirebaseStorage.getInstance().getReference();
-        SimpleDateFormat dateform = new SimpleDateFormat("yyyyMMddHHmmss");
-        Date date = new Date();
-        final String imagedata = "image/" + date.toString() + ".png";
-        StorageReference data = storage.child(imagedata);
-
-        data.putFile(imagefile).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-                BannerData board = new BannerData(imagedata, edittext1.getText().toString());
-                database.child("imagedata").push().setValue(board);
-                edittext1.setText("");
-
-                Toast.makeText(getApplicationContext(), "전송이 완료 되었습니다.", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(), "전송이 실패하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     public void onEmotionButtonClicked(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
@@ -363,29 +317,9 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
 
                                 // Image uploaded successfully
                                 // Dismiss dialog
-                                taskSnapshot.getTask().continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                                    @Override
-                                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                                        if (!task.isSuccessful()) {
-                                            throw task.getException();
-                                        }
-
-                                        snapshot.setPhotoUrl(storageReference.getDownloadUrl().toString());
-                                        myRef.child(snapshot.getId()).setValue(snapshot);
-                                        // Continue with the task to get the download URL
-                                        return storageReference.getDownloadUrl();
-                                    }
-                                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Uri> task) {
-                                        if (task.isSuccessful()) {
-
-                                        } else {
-                                            // Handle failures
-                                            // ...
-                                        }
-                                    }
-                                });
+                                String downloadUri = taskSnapshot.getMetadata().getPath();
+                                snapshot.setPhotoUrl(downloadUri);
+                                myRef.child(snapshot.getId()).setValue(snapshot);
 
                                 Toast
                                         .makeText(UploadActivity.this,
