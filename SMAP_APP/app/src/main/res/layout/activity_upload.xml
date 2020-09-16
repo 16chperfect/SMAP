@@ -7,13 +7,6 @@
 
 
 
-    <Button
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        app:layout_constraintBottom_toTopOf="@+id/radio_sky"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
     <fragment
@@ -30,6 +23,16 @@
             android:layout_width="match_parent"
             android:layout_height="200dp" />
     </fragment>
+
+    <ImageView
+        android:id="@+id/button1"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        app:layout_constraintBottom_toTopOf="@+id/radio_sky"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#000000"/>
 
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/radio_emotion"

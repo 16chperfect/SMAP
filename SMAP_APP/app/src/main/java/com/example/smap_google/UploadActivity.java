@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.media.Image;
 import android.net.Uri;
@@ -39,6 +40,8 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -54,6 +57,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -74,20 +78,25 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
     private MapView mapView;
     private GoogleMap map;
     BannerData banner = new BannerData();
-    Button button1;
-    Button button2;
+    ImageView button1;
+    Uri filePath;
+    FirebaseStorage storage;
+    StorageReference storageReference;
+    private static final int REQUEST_CODE = 0;
     ImageView imageView1;
     EditText edittext1;
     Uri imagefile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
         mapView = (MapView) findViewById(R.id.upload_map);
         mapView.getMapAsync(this);
 
         //뒤로가기를 누를 시 BottomNavViewActivity로 돌아감
-        btn_back = (ImageButton)findViewById(R.id.btn_back1);
+        btn_back = (ImageButton) findViewById(R.id.btn_back1);
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,31 +112,56 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
                 uploadsnapshot();
             }
         });
-        edt_title =(EditText) findViewById(R.id.edt_title);
-        edt_contents =(EditText) findViewById(R.id.edt_contents);
-        edt_hashtag =(EditText) findViewById(R.id.edt_hashtag);
+        edt_title = (EditText) findViewById(R.id.edt_title);
+        edt_contents = (EditText) findViewById(R.id.edt_contents);
+        edt_hashtag = (EditText) findViewById(R.id.edt_hashtag);
 
-        button1 = (Button) findViewById(R.id.button1);
-        button2 = (Button) findViewById(R.id.button2);
-        edittext1 = (EditText) findViewById(R.id.edittext1);
-        imageView1 = (ImageView) findViewById(R.id.imageview1);
-
+        button1 = (ImageView) findViewById(R.id.button1);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent, REQUEST_CODE);
+            }
+        });
     }
 
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 101 && resultCode == RESULT_OK){
-            imagefile = data.getData();
-            Log.d("URI 통합 자원 식별자 ", String.valueOf(imagefile));
-            try{
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagefile);
-            } catch (Exception e) {
-                Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                try {
+                    InputStream in = getContentResolver().openInputStream(data.getData());
+                    filePath = data.getData();
+                    Bitmap img = BitmapFactory.decodeStream(in);
+                    in.close();
+
+                    button1.setImageBitmap(img);
+                } catch (Exception e) {
+
+                }
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(this, "사진 선택 취소", Toast.LENGTH_LONG).show();
             }
         }
     }
+
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if(requestCode == 101 && resultCode == RESULT_OK){
+//            imagefile = data.getData();
+//            Log.d("URI 통합 자원 식별자 ", String.valueOf(imagefile));
+//            try{
+//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagefile);
+//            } catch (Exception e) {
+//                Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
 
     public void clik1button(View v) { //button1
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -160,36 +194,38 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
             }
         });
     }
+
     public void onEmotionButtonClicked(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
 
         // Check which radio button was clicked
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.radio_good:
                 if (checked)
                     emotion_value = 0;
-                    break;
+                break;
             case R.id.radio_bad:
                 if (checked)
                     emotion_value = 1;
-                    break;
+                break;
         }
     }
+
     public void onSkyButtonClicked(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
 
         // Check which radio button was clicked
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.radio_sunny:
                 if (checked)
                     sky_value = 0;
-                    break;
+                break;
             case R.id.radio_rain:
                 if (checked)
                     sky_value = 1;
-                    break;
+                break;
         }
     }
 
@@ -201,25 +237,23 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
 
     }
 
-    private  static  final LatLng DEFAULT_LOCATION = new LatLng(37.56641923090,126.9778741551);
-    private  static  final  int DEFAULT_ZOOM = 15;
+    private static final LatLng DEFAULT_LOCATION = new LatLng(37.56641923090, 126.9778741551);
+    private static final int DEFAULT_ZOOM = 15;
 
     private static final long INTERVAL_TIME = 5000;
-    private static  final  long FASTEST_INTERVAL_TIME = 2000;
+    private static final long FASTEST_INTERVAL_TIME = 2000;
 
     private Location lastknowLocation;
 
-    private void getMyLocation(){
+    private void getMyLocation() {
         Activity activity = UploadActivity.this;
 
-        if(ActivityCompat.checkSelfPermission(activity,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity,
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                     200);
         }
-        if(ActivityCompat.checkSelfPermission(activity , Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     200);
@@ -231,7 +265,7 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
 
         Task<Location> task = fusedLocationProviderClient.getLastLocation();
 
-        task.addOnSuccessListener(new OnSuccessListener<Location>(){
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
                 lastknowLocation = location;
@@ -247,7 +281,7 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
         task.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                if(ActivityCompat.checkSelfPermission(UploadActivity.this,
+                if (ActivityCompat.checkSelfPermission(UploadActivity.this,
                         Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                         ActivityCompat.checkSelfPermission(UploadActivity.this,
                                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -262,7 +296,7 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
     }
 
     private void updateMyLocation() {
-        if(ActivityCompat.checkSelfPermission(UploadActivity.this,
+        if (ActivityCompat.checkSelfPermission(UploadActivity.this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(UploadActivity.this,
                         Manifest.permission.ACCESS_COARSE_LOCATION) !=
@@ -277,7 +311,7 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
         FusedLocationProviderClient fusedLocationProviderClient = new FusedLocationProviderClient(UploadActivity.this);
 
         fusedLocationProviderClient.requestLocationUpdates(
-                locationRequest, new LocationCallback(){
+                locationRequest, new LocationCallback() {
 
                     @Override
                     public void onLocationResult(LocationResult locationResult) {
@@ -288,12 +322,12 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
                                 new LatLng(location.getLatitude(), location.getLongitude())));
                     }
 
-                },null);
+                }, null);
 
     }
-    public void uploadsnapshot()
-    {
-        Snapshot snapshot = new Snapshot();
+
+    public void uploadsnapshot() {
+        final Snapshot snapshot = new Snapshot();
         snapshot.setId(UUID.randomUUID().toString());
         snapshot.setTitle(edt_title.getText().toString());
         snapshot.setContents(edt_contents.getText().toString());
@@ -301,13 +335,81 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
         snapshot.setWeather(sky_value);
         snapshot.setEmotion(emotion_value);
 
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("snapshot");
-
-        myRef.child(snapshot.getId()).setValue(snapshot);
+        final DatabaseReference myRef = database.getReference("snapshot");
 
 
-        // Read from the database
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+        FirebaseStorage storage;
+
+
+        StorageReference ref
+                = storageReference
+                .child(
+                        "images/"
+                                + UUID.randomUUID().toString());
+
+        // adding listeners on upload
+        // or failure of image
+        ref.putFile(filePath)
+                .addOnSuccessListener(
+                        new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+                            @Override
+                            public void onSuccess(
+                                    UploadTask.TaskSnapshot taskSnapshot) {
+
+                                // Image uploaded successfully
+                                // Dismiss dialog
+                                taskSnapshot.getTask().continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                                    @Override
+                                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                                        if (!task.isSuccessful()) {
+                                            throw task.getException();
+                                        }
+
+                                        snapshot.setPhotoUrl(storageReference.getDownloadUrl().toString());
+                                        myRef.child(snapshot.getId()).setValue(snapshot);
+                                        // Continue with the task to get the download URL
+                                        return storageReference.getDownloadUrl();
+                                    }
+                                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Uri> task) {
+                                        if (task.isSuccessful()) {
+
+                                        } else {
+                                            // Handle failures
+                                            // ...
+                                        }
+                                    }
+                                });
+
+                                Toast
+                                        .makeText(UploadActivity.this,
+                                                "Image Uploaded!!",
+                                                Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+                        })
+
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        // Error, Image not uploaded
+
+                        Toast
+                                .makeText(UploadActivity.this,
+                                        "Failed " + e.getMessage(),
+                                        Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                });
+
+// Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -324,5 +426,5 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
             }
         });
     }
-
 }
+
