@@ -92,16 +92,6 @@ public class BottomNavViewActivity extends AppCompatActivity  {
             }
         });
 
-        //앨범을 누를시 activity_album1로 이동
-        /*btn_album1 = (ImageButton)findViewById(R.id.btn_album1);
-        btn_album1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent (BottomNavViewActivity.this, Album1Activity.class );
-                startActivity(intent);
-            }
-        });*/
-
     }
 
     //프래그먼트 화면을 바꾸는 함수
