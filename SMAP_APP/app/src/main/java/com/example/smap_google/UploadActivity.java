@@ -112,32 +112,6 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
         edittext1 = (EditText) findViewById(R.id.edittext1);
         imageView1 = (ImageView) findViewById(R.id.imageview1);
 
-        final DatabaseReference database = FirebaseDatabase.getInstance();
-
-                    ValueEventListener imagedata1 = database.child("imagedata").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            ViewPager viewPager1 = (ViewPager) findViewById(R.id.viewpager1);
-                            MyPageAdapter adapter = new MyPageAdapter(getApplicationContext());
-
-                            BannerData Banner = new BannerData();
-                            List<BannerData> banner1 = new ArrayList<>();
-                            //데이터베이스의 다운한 전체 자료 for each문으로 저장
-                            for(DataSnapshot child : dataSnapshot.getCildren() )
-                            {
-                    banner = child.getValue(BannerData.class);
-                    banner1.add(banner);
-
-                }
-                adapter.add(banner1);
-                viewpager1.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
 
@@ -154,36 +128,38 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
             }
         }
     }
-public void clik1button(View v){ //button1
+
+    public void clik1button(View v) { //button1
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/8");
-        startActivityForResult(intent,101);
-}
-public void clik2button(View v){//button2
-    StorageReference storage;
-    storage = FirebaseStorage.getInstance().getReference();
-    SimpleDateFormat dateform = new SimpleDateFormat("yyyyMMddHHmmss");
-    Date date = new Date();
-    final String imagedata = "image/"+date.toString()+".png";
-    StorageReference data = storage.child(imagedata);
+        startActivityForResult(intent, 101);
+    }
 
-    data.putFile(imagefile).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-        @Override
-        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-            DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-            BannerData board = new BannerData(imagedata,edittext1.getText().toString());
-            database.child("imagedata").push().setValue(board);
-            edittext1.setText("");
+    public void clik2button(View v) {//button2
+        StorageReference storage;
+        storage = FirebaseStorage.getInstance().getReference();
+        SimpleDateFormat dateform = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date();
+        final String imagedata = "image/" + date.toString() + ".png";
+        StorageReference data = storage.child(imagedata);
 
-            Toast.makeText(getApplicationContext(),"전송이 완료 되었습니다.",Toast.LENGTH_SHORT).show();
-        }
-    }).addOnFailureListener(new OnFailureListener() {
-        @Override
-        public void onFailure(@NonNull Exception e) {
-            Toast.makeText(getApplicationContext(),"전송이 실패하였습니다.",Toast.LENGTH_SHORT).show();
-        }
-    });
-}
+        data.putFile(imagefile).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+                BannerData board = new BannerData(imagedata, edittext1.getText().toString());
+                database.child("imagedata").push().setValue(board);
+                edittext1.setText("");
+
+                Toast.makeText(getApplicationContext(), "전송이 완료 되었습니다.", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(), "전송이 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     public void onEmotionButtonClicked(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
@@ -220,18 +196,6 @@ public void clik2button(View v){//button2
     @Override
     public void onMapReady(final GoogleMap googleMap) {
 
-//        map = googleMap;
-//
-//        LatLng SEOUL = new LatLng(37.56, 126.97);
-//
-//        MarkerOptions markerOptions = new MarkerOptions();
-//        markerOptions.position(SEOUL);
-//        markerOptions.title("서울");
-//        markerOptions.snippet("한국의 수도");
-//        map.addMarker(markerOptions);
-//
-//        map.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
-//        map.animateCamera(CameraUpdateFactory.zoomTo(10));
         map = googleMap;
         getMyLocation();
 
@@ -339,6 +303,7 @@ public void clik2button(View v){//button2
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("snapshot");
+
         myRef.child(snapshot.getId()).setValue(snapshot);
 
 
