@@ -81,10 +81,7 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
     private GoogleMap map;
 
 
-    private ArrayList<gesipan> arrayList;
-    private  Maindapter maindapter;
-    private  RecyclerView recyclerView;
-    private LinearLayoutManager linearLayoutManager;
+
 
     BannerData banner = new BannerData();
     ImageView button1;
@@ -124,10 +121,8 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
             @Override
             public void onClick(View view) {
                 uploadsnapshot();
-                init();
-                gesipan gesi = new gesipan(R.drawable.ic_launcher_background,"title");
-                arrayList.add(gesi);
-                maindapter.notifyDataSetChanged();
+
+
             }
         });
         edt_title = (EditText) findViewById(R.id.edt_title);
@@ -153,19 +148,7 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
 
 
     }
-    public void init(){
-        setContentView(R.layout.frag1);
 
-        recyclerView = (RecyclerView)findViewById(R.id.rv);
-        linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        arrayList = new ArrayList<>();
-
-        maindapter = new Maindapter(arrayList);
-        recyclerView.setAdapter(maindapter);
-
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

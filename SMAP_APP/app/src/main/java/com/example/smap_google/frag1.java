@@ -5,29 +5,30 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-
-import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 public class frag1 extends Fragment {
 
     private View view;
-
-
+    private ImageButton btn_img;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frag1 , container, false);
+
+        btn_img = (ImageButton)view.findViewById(R.id.btn_img);
+        btn_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent (getActivity(), Gesi_Activity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -35,3 +36,7 @@ public class frag1 extends Fragment {
 
 
 }
+
+
+
+

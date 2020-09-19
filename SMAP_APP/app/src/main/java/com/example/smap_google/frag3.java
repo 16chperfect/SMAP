@@ -26,18 +26,18 @@ public class frag3 extends Fragment {
         view = inflater.inflate(R.layout.frag3 , container, false);
 
 
-        Intent intent = getActivity().getIntent();
-        if (intent.getStringExtra("nickName") != null) {
-            String nickName = intent.getStringExtra("nickName"); // MainActivity로 부터 닉네임 전달받음
-            String phothurl = intent.getStringExtra("phothUrl");  // MainActivity로 부터 프로필 사진 전달받음
+      //  Intent intent = getActivity().getIntent();
+      //  if (intent.getStringExtra("nickName") != null) {
+       //     String nickName = intent.getStringExtra("nickName"); // MainActivity로 부터 닉네임 전달받음
+        //    String phothurl = intent.getStringExtra("phothUrl");  // MainActivity로 부터 프로필 사진 전달받음
 
-            tv_result = (TextView)view.findViewById(R.id.tv_result);
-            tv_result.setText(nickName); //닉네임 text를 텍스트 뷰에 세팅
+           // tv_result = (TextView)view.findViewById(R.id.tv_result);
+           // tv_result.setText(nickName); //닉네임 text를 텍스트 뷰에 세팅
 
-            IV_PROFILE = (ImageView)view.findViewById(R.id.IV_PROFILE);
-            Glide.with(this).load(phothurl).into(IV_PROFILE); //프로필 URL을 이미지 뷰에 세팅
+          //  IV_PROFILE = (ImageView)view.findViewById(R.id.IV_PROFILE);
+          //  Glide.with(this).load(phothurl).into(IV_PROFILE); //프로필 URL을 이미지 뷰에 세팅
 
-        }
+       // }
         return view;
     }
 }

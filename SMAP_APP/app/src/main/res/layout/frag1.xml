@@ -1,20 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbarFadeDuration="0"
-        android:scrollbarSize="5dp"
-        android:scrollbarThumbVertical="@android:color/darker_gray"
-        android:scrollbars="vertical"
-        android:layout_weight="1">
+
+    <ImageButton
+        android:id="@+id/btn_img"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_below="@+id/menu_background4"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="83dp"
+        android:layout_marginLeft="83dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginEnd="77dp"
+        android:layout_marginRight="77dp"
+        android:layout_marginBottom="242dp"
+        android:background="@color/fui_transparent"
+        android:focusableInTouchMode="true"
+        android:src="@drawable/icon_album"
+        android:tint="#000000" />
 
 
-    </androidx.recyclerview.widget.RecyclerView>
-</LinearLayout>
+
+    </RelativeLayout>
