@@ -79,7 +79,8 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
     private int sky_value;
     private MapView mapView;
     private GoogleMap map;
-    
+
+
     private ArrayList<gesipan> arrayList;
     private  Maindapter maindapter;
     private  RecyclerView recyclerView;
@@ -102,6 +103,10 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
         setContentView(R.layout.activity_upload);
         mapView = (MapView) findViewById(R.id.upload_map);
         mapView.getMapAsync(this);
+//re
+
+     //
+
 
         //뒤로가기를 누를 시 BottomNavViewActivity로 돌아감
         btn_back = (ImageButton) findViewById(R.id.btn_back1);
@@ -119,6 +124,7 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
             @Override
             public void onClick(View view) {
                 uploadsnapshot();
+                init();
                 gesipan gesi = new gesipan(R.drawable.ic_launcher_background,"title");
                 arrayList.add(gesi);
                 maindapter.notifyDataSetChanged();
@@ -138,14 +144,27 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
+     //recyclerView
+
+
+
+
+
+
+
+    }
+    public void init(){
+        setContentView(R.layout.frag1);
+
         recyclerView = (RecyclerView)findViewById(R.id.rv);
-        linearLayoutManager =new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
         arrayList = new ArrayList<>();
 
-         maindapter = new Maindapter(arrayList);
+        maindapter = new Maindapter(arrayList);
         recyclerView.setAdapter(maindapter);
+
     }
 
     @Override
