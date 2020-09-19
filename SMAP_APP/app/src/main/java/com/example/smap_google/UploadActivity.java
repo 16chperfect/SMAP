@@ -26,6 +26,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
@@ -77,6 +79,12 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
     private int sky_value;
     private MapView mapView;
     private GoogleMap map;
+    
+    private ArrayList<gesipan> arrayList;
+    private  Maindapter maindapter;
+    private  RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
+
     BannerData banner = new BannerData();
     ImageView button1;
     Uri filePath;
@@ -88,7 +96,7 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
     Uri imagefile;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate( Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
@@ -105,11 +113,15 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
             }
         });
 
+
         uploadButton = (ImageButton) findViewById(R.id.btn_upload);
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 uploadsnapshot();
+                gesipan gesi = new gesipan(R.drawable.ic_launcher_background,"title");
+                arrayList.add(gesi);
+                maindapter.notifyDataSetChanged();
             }
         });
         edt_title = (EditText) findViewById(R.id.edt_title);
@@ -126,6 +138,14 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
+        recyclerView = (RecyclerView)findViewById(R.id.rv);
+        linearLayoutManager =new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        arrayList = new ArrayList<>();
+
+         maindapter = new Maindapter(arrayList);
+        recyclerView.setAdapter(maindapter);
     }
 
     @Override

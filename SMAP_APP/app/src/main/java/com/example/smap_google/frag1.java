@@ -8,15 +8,21 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.zip.Inflater;
 
 public class frag1 extends Fragment {
 
     private View view;
+
+
 
     @Nullable
     @Override
@@ -25,4 +31,7 @@ public class frag1 extends Fragment {
 
         return view;
     }
+
+
+
 }
