@@ -37,7 +37,7 @@ public class Gesi_Activity extends AppCompatActivity {
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gesipan gesi = new gesipan(R.drawable.ic_launcher_background,"title");
+                gesipan gesi = new gesipan(R.drawable.ic_launcher_background,".getText().toString()");
                 arrayList.add(gesi);
                 maindapter.notifyDataSetChanged();
             }
