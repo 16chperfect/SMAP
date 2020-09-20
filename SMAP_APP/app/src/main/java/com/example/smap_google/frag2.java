@@ -45,8 +45,8 @@ public class frag2 extends Fragment implements OnMapReadyCallback, GoogleMap.OnM
     View marker_root_view;
     Marker selecetedMarker;
 
-    public double lng;
-    public double lat;
+    public static double lng;
+    public static double lat;
 
 
 

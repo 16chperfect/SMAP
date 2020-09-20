@@ -4,6 +4,8 @@ public class gesipan {
     private  int iv_pro;
     private  String tv_name;
 
+
+    public gesipan(){};
     public gesipan(int iv_pro, String tv_name) {
         this.iv_pro = iv_pro;
         this.tv_name = tv_name;
