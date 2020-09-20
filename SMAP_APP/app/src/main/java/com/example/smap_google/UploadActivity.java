@@ -2,6 +2,7 @@ package com.example.smap_google;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -9,13 +10,18 @@ import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.Image;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -24,8 +30,10 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -81,9 +89,10 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
     private int emotion_value;
     private int sky_value;
     private MapView mapView;
-    private GoogleMap map;
-    public double lat;
-    public double lng;
+    public GoogleMap map;
+    public static double lat;
+    public static double lng;
+
 
 
     BannerData banner = new BannerData();
@@ -96,6 +105,9 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
     EditText edittext1;
     Uri imagefile;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -106,6 +118,7 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
 //re
 
         //
+
 
 
         //뒤로가기를 누를 시 BottomNavViewActivity로 돌아감
@@ -146,7 +159,6 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
 
 
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -205,106 +217,19 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-
         map = googleMap;
-        getMyLocation();
 
     }
 
-    private static final LatLng DEFAULT_LOCATION = new LatLng(37.56641923090, 126.9778741551);
-    private static final int DEFAULT_ZOOM = 15;
+    private  static  final LatLng DEFAULT_LOCATION = new LatLng(37.56641923090,126.9778741551);
+    private  static  final  int DEFAULT_ZOOM = 15;
 
-    private static final long INTERVAL_TIME = 5000;
-    private static final long FASTEST_INTERVAL_TIME = 2000;
+    private static final long INTERVAL_TIME = 500000000;
+    private static  final  long FASTEST_INTERVAL_TIME = 500000000;
 
     private Location lastknowLocation;
 
-    private void updateMyLocation() {
-        if (ActivityCompat.checkSelfPermission(UploadActivity.this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(UploadActivity.this,
-                        Manifest.permission.ACCESS_COARSE_LOCATION) !=
-                        PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(INTERVAL_TIME);
-        locationRequest.setFastestInterval(FASTEST_INTERVAL_TIME);
 
-        FusedLocationProviderClient fusedLocationProviderClient = new FusedLocationProviderClient(UploadActivity.this);
-
-        fusedLocationProviderClient.requestLocationUpdates(
-                locationRequest, new LocationCallback() {
-
-                    @Override
-                    public void onLocationResult(LocationResult locationResult) {
-                        super.onLocationResult(locationResult);
-                        Location location = locationResult.getLastLocation();
-                        lat = location.getLatitude();
-                        lng =location.getLongitude();
-                        snapshot.setLat(lat);
-                        snapshot.setLng(lng);
-                        map.moveCamera(CameraUpdateFactory.newLatLng(
-                                new LatLng(location.getLatitude(), location.getLongitude())));
-                    }
-
-
-                }, null);
-
-    }
-
-    private void getMyLocation() {
-        Activity activity = UploadActivity.this;
-
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity,
-                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    200);
-        }
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    200);
-        }
-        map.setMyLocationEnabled(true);
-        map.getUiSettings().setMyLocationButtonEnabled(true);
-
-        FusedLocationProviderClient fusedLocationProviderClient = new FusedLocationProviderClient(activity);
-
-        Task<Location> task = fusedLocationProviderClient.getLastLocation();
-
-        task.addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                lastknowLocation = location;
-
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                        new LatLng(lastknowLocation.getLatitude(),
-                                lastknowLocation.getLongitude()),
-                        DEFAULT_ZOOM
-                ));
-                updateMyLocation();
-            }
-        });
-        task.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                if (ActivityCompat.checkSelfPermission(UploadActivity.this,
-                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                        ActivityCompat.checkSelfPermission(UploadActivity.this,
-                                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION,
-                        DEFAULT_ZOOM));
-                map.setMyLocationEnabled(false);
-                map.getUiSettings().setMyLocationButtonEnabled(false);
-            }
-        });
-
-
-    }
 
 
     public void uploadsnapshot() {
@@ -316,7 +241,11 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
         snapshot.setWeather(sky_value);
         snapshot.setEmotion(emotion_value);
 
+        //frag.getMyLocation();
+        snapshot.setLng(lng);
+        snapshot.setLat(lat);
 
+        //snapshot.setLat();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference("snapshot");
 
@@ -387,6 +316,8 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
             }
         });
     }
+
+
 
 }
 

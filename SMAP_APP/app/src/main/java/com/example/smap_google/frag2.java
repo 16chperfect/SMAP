@@ -35,6 +35,7 @@ import com.google.firebase.installations.remote.TokenResult;
 
 import javax.xml.transform.Result;
 
+
 public class frag2 extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
 
     private View view;
@@ -43,6 +44,10 @@ public class frag2 extends Fragment implements OnMapReadyCallback, GoogleMap.OnM
     ImageView imageView;
     View marker_root_view;
     Marker selecetedMarker;
+
+    public double lng;
+    public double lat;
+
 
 
     @Nullable
@@ -70,6 +75,8 @@ public class frag2 extends Fragment implements OnMapReadyCallback, GoogleMap.OnM
         getMyLocation();
         map.setOnMapClickListener(this);
         map.setOnMapClickListener(this);
+
+
     }
 
     private  static  final LatLng DEFAULT_LOCATION = new LatLng(37.56641923090,126.9778741551);
@@ -80,7 +87,7 @@ public class frag2 extends Fragment implements OnMapReadyCallback, GoogleMap.OnM
 
     private Location lastknowLocation;
 
-    private void getMyLocation(){
+    public void getMyLocation(){
         Activity activity = getActivity();
 
         if(ActivityCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
@@ -112,6 +119,9 @@ public class frag2 extends Fragment implements OnMapReadyCallback, GoogleMap.OnM
                                 lastknowLocation.getLongitude()),
                         DEFAULT_ZOOM
                 ));
+                UploadActivity.lat = location.getLatitude();
+                UploadActivity.lng = location.getLongitude();
+
                 updateMyLocation();
             }
         });
@@ -155,13 +165,20 @@ public class frag2 extends Fragment implements OnMapReadyCallback, GoogleMap.OnM
                         super.onLocationResult(locationResult);
                         Location location = locationResult.getLastLocation();
 
-                        map.moveCamera(CameraUpdateFactory.newLatLng(
-                                new LatLng(location.getLatitude(), location.getLongitude())));
+                        map.moveCamera(CameraUpdateFactory.newLatLng
+                                (
+                                new LatLng(location.getLatitude(), location.getLongitude() )
+                                )
+                        );
+
+
+
                     }
 
                 },null);
 
     }
+
 
     @Override
     public void onMapClick(LatLng latLng) {
@@ -176,4 +193,8 @@ public class frag2 extends Fragment implements OnMapReadyCallback, GoogleMap.OnM
        // marker_root_view =LayoutInflater.from(this).inflate(R.layout.cusmaker, null);
         imageView = (ImageView) marker_root_view.findViewById(R.id.tv_maker);
     }
+
+
+
+
 }
