@@ -71,7 +71,7 @@ import java.util.UUID;
 
 
 public class UploadActivity extends AppCompatActivity implements OnMapReadyCallback {
-
+    final Snapshot snapshot = new Snapshot();
     private ImageButton uploadButton;
     private EditText edt_title;
     private EditText edt_contents;
@@ -241,8 +241,10 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
                     public void onLocationResult(LocationResult locationResult) {
                         super.onLocationResult(locationResult);
                         Location location = locationResult.getLastLocation();
-                        lat =location.getLatitude();
+                        lat = location.getLatitude();
                         lng =location.getLongitude();
+                        snapshot.setLat(lat);
+                        snapshot.setLng(lng);
                         map.moveCamera(CameraUpdateFactory.newLatLng(
                                 new LatLng(location.getLatitude(), location.getLongitude())));
                     }
@@ -305,18 +307,15 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
     }
 
 
-
-
     public void uploadsnapshot() {
-        final Snapshot snapshot = new Snapshot();
+
         snapshot.setId(UUID.randomUUID().toString());
         snapshot.setTitle(edt_title.getText().toString());
         snapshot.setContents(edt_contents.getText().toString());
         snapshot.setHashTag(edt_hashtag.getText().toString());
         snapshot.setWeather(sky_value);
         snapshot.setEmotion(emotion_value);
-        snapshot.setLat(lat);
-        snapshot.setLng(lng);
+
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference("snapshot");

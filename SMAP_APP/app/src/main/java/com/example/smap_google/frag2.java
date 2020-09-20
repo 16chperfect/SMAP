@@ -44,6 +44,7 @@ public class frag2 extends Fragment implements OnMapReadyCallback, GoogleMap.OnM
     View marker_root_view;
     Marker selecetedMarker;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
