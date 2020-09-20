@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +26,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,11 +35,14 @@ import com.google.firebase.installations.remote.TokenResult;
 
 import javax.xml.transform.Result;
 
-public class frag2 extends Fragment implements OnMapReadyCallback {
+public class frag2 extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener {
 
     private View view;
     private MapView mapView;
     private GoogleMap map;
+    ImageView imageView;
+    View marker_root_view;
+    Marker selecetedMarker;
 
     @Nullable
     @Override
@@ -62,7 +67,8 @@ public class frag2 extends Fragment implements OnMapReadyCallback {
     public void onMapReady(final GoogleMap googleMap) {
         map = googleMap;
         getMyLocation();
-
+        map.setOnMapClickListener(this);
+        map.setOnMapClickListener(this);
     }
 
     private  static  final LatLng DEFAULT_LOCATION = new LatLng(37.56641923090,126.9778741551);
@@ -154,5 +160,19 @@ public class frag2 extends Fragment implements OnMapReadyCallback {
 
                 },null);
 
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        return false;
+    }
+    private void setCustomMarkerView(){
+       // marker_root_view =LayoutInflater.from(this).inflate(R.layout.cusmaker, null);
+        imageView = (ImageView) marker_root_view.findViewById(R.id.tv_maker);
     }
 }

@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.media.Image;
 import android.net.Uri;
@@ -64,6 +66,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 
@@ -79,8 +82,8 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
     private int sky_value;
     private MapView mapView;
     private GoogleMap map;
-
-
+    public double lat;
+    public double lng;
 
 
     BannerData banner = new BannerData();
@@ -94,7 +97,7 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
     Uri imagefile;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
@@ -102,7 +105,7 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
         mapView.getMapAsync(this);
 //re
 
-     //
+        //
 
 
         //뒤로가기를 누를 시 BottomNavViewActivity로 돌아감
@@ -139,12 +142,7 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
-     //recyclerView
-
-
-
-
-
+        //recyclerView
 
 
     }
@@ -221,6 +219,39 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
 
     private Location lastknowLocation;
 
+    private void updateMyLocation() {
+        if (ActivityCompat.checkSelfPermission(UploadActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(UploadActivity.this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                        PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(INTERVAL_TIME);
+        locationRequest.setFastestInterval(FASTEST_INTERVAL_TIME);
+
+        FusedLocationProviderClient fusedLocationProviderClient = new FusedLocationProviderClient(UploadActivity.this);
+
+        fusedLocationProviderClient.requestLocationUpdates(
+                locationRequest, new LocationCallback() {
+
+                    @Override
+                    public void onLocationResult(LocationResult locationResult) {
+                        super.onLocationResult(locationResult);
+                        Location location = locationResult.getLastLocation();
+                        lat =location.getLatitude();
+                        lng =location.getLongitude();
+                        map.moveCamera(CameraUpdateFactory.newLatLng(
+                                new LatLng(location.getLatitude(), location.getLongitude())));
+                    }
+
+
+                }, null);
+
+    }
+
     private void getMyLocation() {
         Activity activity = UploadActivity.this;
 
@@ -269,38 +300,12 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
                 map.getUiSettings().setMyLocationButtonEnabled(false);
             }
         });
-    }
 
-    private void updateMyLocation() {
-        if (ActivityCompat.checkSelfPermission(UploadActivity.this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(UploadActivity.this,
-                        Manifest.permission.ACCESS_COARSE_LOCATION) !=
-                        PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(INTERVAL_TIME);
-        locationRequest.setFastestInterval(FASTEST_INTERVAL_TIME);
-
-        FusedLocationProviderClient fusedLocationProviderClient = new FusedLocationProviderClient(UploadActivity.this);
-
-        fusedLocationProviderClient.requestLocationUpdates(
-                locationRequest, new LocationCallback() {
-
-                    @Override
-                    public void onLocationResult(LocationResult locationResult) {
-                        super.onLocationResult(locationResult);
-                        Location location = locationResult.getLastLocation();
-
-                        map.moveCamera(CameraUpdateFactory.newLatLng(
-                                new LatLng(location.getLatitude(), location.getLongitude())));
-                    }
-
-                }, null);
 
     }
+
+
+
 
     public void uploadsnapshot() {
         final Snapshot snapshot = new Snapshot();
@@ -310,7 +315,8 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
         snapshot.setHashTag(edt_hashtag.getText().toString());
         snapshot.setWeather(sky_value);
         snapshot.setEmotion(emotion_value);
-
+        snapshot.setLat(lat);
+        snapshot.setLng(lng);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference("snapshot");
@@ -382,5 +388,6 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
             }
         });
     }
+
 }
 
