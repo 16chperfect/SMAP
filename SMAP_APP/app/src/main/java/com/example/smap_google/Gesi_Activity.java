@@ -50,19 +50,23 @@ public class Gesi_Activity extends AppCompatActivity {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 //파이어베이스 데이터베이스의 데이터를 받아오는 곳
                 arrayList.clear(); //기존 배열리스트 존재없게 초 기 화
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){ //반복문으로 데이터 list 추출
                     Snapshot snapshot1 = snapshot.getValue(Snapshot.class);
                     arrayList.add(snapshot1);//담은 데이터를 배열리스트에 넣고 리사이클러뷰로 보낼준비
+
                 }
                 adapter.notifyDataSetChanged();
 
             }
             @Override
+
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 //디비를 가져오던중 에러 발생
                 Log.e("Gesi_Activity", String.valueOf(databaseError.toException()));
+
             }
         });
         adapter = new Maindapter(arrayList, this);

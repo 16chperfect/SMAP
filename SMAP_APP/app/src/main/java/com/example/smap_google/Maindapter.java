@@ -52,7 +52,7 @@ public class Maindapter  extends RecyclerView.Adapter<Maindapter.CustomViewHolde
         Glide.with(holder.itemView)
                 .load(arrayList.get(position).getPhotoUrl())
                .into(holder.iv_pro1);
-        Picasso.get().load((arrayList.get(position).getPhotoUrl())).into(holder.iv_pro1);
+       // Picasso.get().load((arrayList.get(position).getPhotoUrl())).into(holder.iv_pro1);
         holder.tv_id.setText(arrayList.get(position).getTitle());
         holder.tv_id2.setText(arrayList.get(position).getHashTag());
 
