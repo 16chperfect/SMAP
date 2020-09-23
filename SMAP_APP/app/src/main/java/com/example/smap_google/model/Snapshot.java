@@ -16,6 +16,7 @@ import java.util.Date;
 
 
 public class Snapshot {
+    public Snapshot(){}
     public String getId() {
         return id;
     }

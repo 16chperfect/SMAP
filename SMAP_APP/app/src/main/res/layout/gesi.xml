@@ -1,27 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/recyclerView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbarFadeDuration="0"
-        android:scrollbarSize="5dp"
-        android:scrollbarThumbVertical="@android:color/darker_gray"
-        android:scrollbars="vertical"
-        android:layout_weight="1">
-
-
-
-    </androidx.recyclerview.widget.RecyclerView>
-    <Button
-        android:id="@+id/btn_ad"
-        android:layout_weight="8"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:text="추가"/>
-</LinearLayout>
+    android:layout_height="match_parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

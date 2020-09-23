@@ -258,7 +258,7 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
         StorageReference ref
                 = storageReference
                 .child(
-                        "images/"
+                        "https://"
                                 + UUID.randomUUID().toString());
 
         // adding listeners on upload

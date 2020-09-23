@@ -1,29 +1,44 @@
 package com.example.smap_google;
 
+
+import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.smap_google.model.Snapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.UUID;
 
-public class Maindapter extends RecyclerView.Adapter<Maindapter.CustomViewHolder> {
+public class Maindapter  extends RecyclerView.Adapter<Maindapter.CustomViewHolder> {
 
-    private ArrayList<gesipan> arrayList;
 
-    public Maindapter(ArrayList<gesipan> arrayList) {
+
+
+    private ArrayList<Snapshot> arrayList;
+    private Context context;
+    public Maindapter(ArrayList<Snapshot> arrayList, Context context) {
         this.arrayList = arrayList;
+        this.context = context;
     }
 
     @NonNull
     @Override
-    public Maindapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list,parent,false);
+    public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent,false);
         CustomViewHolder holder = new CustomViewHolder(view);
 
 
@@ -31,48 +46,33 @@ public class Maindapter extends RecyclerView.Adapter<Maindapter.CustomViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final Maindapter.CustomViewHolder holder, int position) {
-        holder.iv_pro.setImageResource(arrayList.get(position).getIv_pro());
-        holder.tv_name.setText(arrayList.get(position).getTv_name());
+    public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
 
-        holder.itemView.setTag(position);
-        holder.itemView.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                String curName = holder.tv_name.getText().toString();
-                Toast.makeText(v.getContext(), curName, Toast.LENGTH_SHORT).show();
-            }
-        });
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
-            @Override
-            public boolean onLongClick(View view) {
-                return true;
-            }
-        });
+
+        Glide.with(holder.itemView)
+                .load(arrayList.get(position).getPhotoUrl())
+               .into(holder.iv_pro1);
+        Picasso.get().load((arrayList.get(position).getPhotoUrl())).into(holder.iv_pro1);
+        holder.tv_id.setText(arrayList.get(position).getTitle());
+        holder.tv_id2.setText(arrayList.get(position).getHashTag());
+
+
     }
 
     @Override
     public int getItemCount() {
-        return (null != arrayList ? arrayList.size() : 0);
+        return (arrayList != null ? arrayList.size() : 0);
     }
 
-    public void remove(int position)
-    {
-        try{
-            arrayList.remove(position);
-            notifyItemRemoved(position);
-        } catch (IndexOutOfBoundsException ex){
-            ex.printStackTrace();
-        }
-    }
     public class CustomViewHolder extends RecyclerView.ViewHolder {
-        protected ImageView iv_pro;
-        protected TextView tv_name;
-
+        ImageView iv_pro1;
+        TextView tv_id;
+        TextView tv_id2;
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.iv_pro = (ImageView) itemView.findViewById(R.id.iv_pro);
-            this.tv_name = (TextView) itemView.findViewById(R.id.tv_name);
+            this.iv_pro1 = itemView.findViewById(R.id.iv_pro1);
+            this.tv_id = itemView.findViewById(R.id.tv_id);
+            this.tv_id2 = itemView.findViewById(R.id.tv_id2);
         }
     }
 }
