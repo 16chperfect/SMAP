@@ -3,9 +3,14 @@ package com.example.smap_google;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +21,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.example.smap_google.model.Snapshot;
 import com.firebase.ui.auth.viewmodel.RequestCodes;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -25,12 +32,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.installations.remote.TokenResult;
 
 import javax.xml.transform.Result;
@@ -44,10 +53,15 @@ public class frag2 extends Fragment implements OnMapReadyCallback, GoogleMap.OnM
     ImageView imageView;
     View marker_root_view;
     Marker selecetedMarker;
+    Gesi_Activity gesi_activity;
+    Snapshot snapshot;
+
+    DataSnapshot dataSnapshot;
 
     public static double lng;
     public static double lat;
-
+    double Lng2;
+    double Lat2;
 
 
     @Nullable
@@ -69,6 +83,7 @@ public class frag2 extends Fragment implements OnMapReadyCallback, GoogleMap.OnM
     }
 
 
+
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         map = googleMap;
@@ -77,7 +92,25 @@ public class frag2 extends Fragment implements OnMapReadyCallback, GoogleMap.OnM
         map.setOnMapClickListener(this);
 
 
+            MarkerOptions markerOptions = new MarkerOptions();
+
+            markerOptions.position(new LatLng(37.533845 , 127.225918 ));
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.unknown2));
+            map.addMarker(markerOptions);
+            markerOptions.position(new LatLng(37.534500, 127.228525 ));
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.unknown4));
+            map.addMarker(markerOptions);
+            markerOptions.position(new LatLng(37.535878, 127.227227));
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.unknown5));
+            map.addMarker(markerOptions);
+            markerOptions.position(new LatLng(37.535195, 127.225647));
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.unknown));
+              map.addMarker(markerOptions);
+           markerOptions.position(new LatLng(37.533611, 127.225352));
+         markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.unknown3));
+            map.addMarker(markerOptions);
     }
+
 
     private  static  final LatLng DEFAULT_LOCATION = new LatLng(37.56641923090,126.9778741551);
     private  static  final  int DEFAULT_ZOOM = 15;

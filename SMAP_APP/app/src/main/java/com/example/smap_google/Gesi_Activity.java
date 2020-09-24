@@ -31,6 +31,7 @@ public class Gesi_Activity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Snapshot> arrayList;
+
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
 
@@ -39,6 +40,7 @@ public class Gesi_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gesi);
+
 
 
 
@@ -62,6 +64,7 @@ public class Gesi_Activity extends AppCompatActivity {
 
                     Snapshot snapshot1 = snapshot.getValue(Snapshot.class);
                     arrayList.add(snapshot1);//담은 데이터를 배열리스트에 넣고 리사이클러뷰로 보낼준비
+
                 }
 
                 adapter.notifyDataSetChanged();

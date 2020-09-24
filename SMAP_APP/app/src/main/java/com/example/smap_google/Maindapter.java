@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.net.URL;
+import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -54,8 +55,8 @@ public class Maindapter  extends RecyclerView.Adapter<Maindapter.CustomViewHolde
                .into(holder.iv_pro1);
        // Picasso.get().load((arrayList.get(position).getPhotoUrl())).into(holder.iv_pro1);
         holder.tv_id.setText(arrayList.get(position).getTitle());
-        holder.tv_id2.setText(arrayList.get(position).getHashTag());
-
+        holder.tv_id2.setText(arrayList.get(position).getContents());
+        holder.tv_id3.setText(arrayList.get(position).getHashTag());
 
     }
 
@@ -65,14 +66,19 @@ public class Maindapter  extends RecyclerView.Adapter<Maindapter.CustomViewHolde
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
+
         ImageView iv_pro1;
         TextView tv_id;
         TextView tv_id2;
+        TextView tv_id3;
+
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             this.iv_pro1 = itemView.findViewById(R.id.iv_pro1);
             this.tv_id = itemView.findViewById(R.id.tv_id);
             this.tv_id2 = itemView.findViewById(R.id.tv_id2);
+            this.tv_id3 = itemView.findViewById(R.id.tv_id3);
+
         }
     }
 }
