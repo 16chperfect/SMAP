@@ -255,7 +255,7 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
         FirebaseStorage storage;
 
 
-        StorageReference ref
+        final StorageReference ref
                 = storageReference
                 .child(
                         "images/"
@@ -263,41 +263,37 @@ public class UploadActivity extends AppCompatActivity implements OnMapReadyCallb
 
         // adding listeners on upload
         // or failure of image
-        ref.putFile(filePath)
-                .addOnSuccessListener(
-                        new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        ref.putFile(filePath).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+                return ref.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    snapshot.setPhotoUrl(downloadUri.toString());
+                    myRef.child(snapshot.getId()).setValue(snapshot);
 
-                            @Override
-                            public void onSuccess(
-                                    UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast
+                            .makeText(UploadActivity.this,
+                                    "Image Uploaded!!",
+                                    Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    Toast
+                            .makeText(UploadActivity.this,
+                                    "Image Upload fail!!",
+                                    Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+        });
 
-                                // Image uploaded successfully
-                                // Dismiss dialog
-                                String downloadUri = taskSnapshot.getMetadata().getPath();
-                                snapshot.setPhotoUrl(downloadUri);
-                                myRef.child(snapshot.getId()).setValue(snapshot);
-
-                                Toast
-                                        .makeText(UploadActivity.this,
-                                                "Image Uploaded!!",
-                                                Toast.LENGTH_SHORT)
-                                        .show();
-                            }
-                        })
-
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                        // Error, Image not uploaded
-
-                        Toast
-                                .makeText(UploadActivity.this,
-                                        "Failed " + e.getMessage(),
-                                        Toast.LENGTH_SHORT)
-                                .show();
-                    }
-                });
 
 // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
